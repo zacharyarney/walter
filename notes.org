@@ -1,0 +1,22 @@
+#+TITLE:
+
+* FRONTEND
+** React [0/8]
+- [ ] Connect to server
+- [ ] Plaid integration
+- [ ] Display balances
+- [ ] Track transactions
+- [ ] Set pay-period budget
+- [ ] categorize budget
+- [ ] Prioritize budget categories
+- [ ] Auto-adjust category budgets based on overspending and priority
+
+** React Native
+
+* BACKEND
+** ExpressJS [0/2]
+- [ ] User auth
+- [ ] Plaid integration
+
+** Plaid [0/1]
+- [ ] connect bank account
