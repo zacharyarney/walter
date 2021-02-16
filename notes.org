@@ -1,15 +1,19 @@
 #+TITLE:
 
 * FRONTEND
-** React [0/8]
+** React [0/6]
 - [ ] Connect to server
 - [ ] Plaid integration
 - [ ] Display balances
 - [ ] Track transactions
 - [ ] Set pay-period budget
-- [ ] categorize budget
-- [ ] Prioritize budget categories
-- [ ] Auto-adjust category budgets based on overspending and priority
+  + [ ] categorize budget
+  + [ ] Prioritize budget categories
+  + [ ] Auto-adjust category budgets based on overspending and priority
+  + [ ] Split/itemize transactions into multiple categories
+- [ ] Savings goals
+  + [ ] Set goal for savings account by specific date
+  + [ ] show minimum monthly contribution necessary to meet goal
 
 ** React Native
 
