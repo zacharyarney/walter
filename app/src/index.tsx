@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
+import auth from './config/auth.config';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -8,8 +9,8 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
-      domain="walter-dev.us.auth0.com"
-      clientId="FTzC2iap1XacRVggZpFKVgc0qd7BOZ0I"
+      domain={auth.domain}
+      clientId={auth.clientId}
       redirectUri={window.location.origin}
     >
       <App />
