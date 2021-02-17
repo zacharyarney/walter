@@ -1,8 +1,12 @@
 #+TITLE:
 
 * FRONTEND
-** React [0/6]
+** React [0/7]
 - [ ] Connect to server
+- [-] User auth [1/3]
+  + [X] Connect to Auth0
+  + [ ] Auth0 dev and prod environements
+  + [ ] Connect to backend
 - [ ] Plaid integration
 - [ ] Display balances
 - [ ] Track transactions
