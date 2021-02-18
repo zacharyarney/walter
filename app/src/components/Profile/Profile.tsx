@@ -6,14 +6,31 @@ import { useApi } from '../../hooks/useApi';
 
 export function Profile() {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
-  const [publicMessage, setPublicMessage] = useState('');
+  // const [publicMessage, setPublicMessage] = useState('');
   const [protectedMessage, setProtectedMessage] = useState('');
+
+  const getMessage = async () => {
+    try {
+      const messageResponse = await fetch(auth.walterApiUri);
+
+      const { message } = await messageResponse.json();
+
+      setProtectedMessage(message);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const getProtectedMessage = async () => {
     // this portion can probably be made into a hook.
     const accessToken = await getAccessTokenSilently({
       audience: auth.audience,
     });
+
+    console.log('accessToken: ', accessToken);
+    console.log('audience: ', auth.audience);
+    console.log('uri: ', auth.walterApiUri);
+    console.log('domain: ', auth.domain);
 
     try {
       const messageResponse = await fetch(`${auth.walterApiUri}/private`, {
@@ -40,7 +57,10 @@ export function Profile() {
       <img src={user.picture} alt={user.name} />
       <h2>{user.name}</h2>
       <p>{user.email}</p>
-      <button onClick={() => getProtectedMessage()}>Get Message</button>
+      <button onClick={() => getProtectedMessage()}>
+        Get Protected Message
+      </button>
+      <button onClick={() => getMessage()}>Get Message</button>
       {protectedMessage ? <p>{protectedMessage}</p> : null}
     </>
   );
