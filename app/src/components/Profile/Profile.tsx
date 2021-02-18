@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { LogoutButton } from '../LogoutButton/LogoutButton';
 import auth from '../../config/auth.config';
-import { useApi } from '../../hooks/useApi';
 
 export function Profile() {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
@@ -26,11 +25,6 @@ export function Profile() {
     const accessToken = await getAccessTokenSilently({
       audience: auth.audience,
     });
-
-    console.log('accessToken: ', accessToken);
-    console.log('audience: ', auth.audience);
-    console.log('uri: ', auth.walterApiUri);
-    console.log('domain: ', auth.domain);
 
     try {
       const messageResponse = await fetch(`${auth.walterApiUri}/private`, {
