@@ -1,12 +1,12 @@
 import { MongoClient } from 'mongodb';
 import config from './config/config';
-import mongo from './config/db.config';
+import database from './config/db.config';
 import { app } from './api/server';
 import * as usersDAO from './dao/users/users';
 
 const port = config.port;
 
-MongoClient.connect(mongo.url, {
+MongoClient.connect(database.url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
