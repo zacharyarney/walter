@@ -22,6 +22,8 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
 
+app.use(checkJwt);
+
 // Routes
 app.get('/', (req, res) => {
   res.json({
@@ -29,7 +31,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/private', checkJwt, (req, res) => {
+app.get('/private', (req, res) => {
   res.json({
     message: 'You should only be able to see this if you are authorized.',
   });
