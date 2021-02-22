@@ -2,7 +2,7 @@ import { MongoClient } from 'mongodb';
 import config from './config/config';
 import database from './config/db.config';
 import { app } from './api/server';
-import * as usersDAO from './dao/users/users';
+import * as usersDAO from './api/dao/users/users';
 
 const port = config.port;
 

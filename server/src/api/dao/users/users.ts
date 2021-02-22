@@ -1,8 +1,13 @@
 import * as mongodb from 'mongodb';
-import database from '../../config/db.config';
+import database from '../../../config/db.config';
 
 interface UserSchema {
   auth0Id: string;
+}
+
+interface AccessTokenResponse {
+  access_token: string;
+  item_id: string;
 }
 
 let users: mongodb.Collection;
@@ -22,9 +27,22 @@ export async function getUserByAuth0Id(id: string) {
 }
 
 export async function createUser(user: UserSchema) {
+  console.log(user);
   try {
-    return await users.insertOne(user);
+    const id = await users.insertOne(user);
+    return await users.findOne({ _id: id });
   } catch (err) {
     return err.errmsg;
   }
+}
+
+export async function addNewAccessToken(
+  auth0Id: string,
+  accessTokenResponse: AccessTokenResponse
+) {
+  console.log('addNewAccessToken to DB');
+  return await users.findOneAndUpdate(
+    { auth0Id: auth0Id },
+    { $push: { items: accessTokenResponse } }
+  );
 }

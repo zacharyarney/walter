@@ -1,13 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Auth0UserProfile } from 'auth0-js';
 import { LogoutButton } from '../LogoutButton/LogoutButton';
 import auth from '../../config/auth.config';
 
+interface WalterUser extends Auth0UserProfile {
+  auth0Id: string;
+}
+
 export function Profile() {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
-  // const [publicMessage, setPublicMessage] = useState('');
+  // TODO: create type for walterUser
+  const [walterUser, setWalterUser] = useState<WalterUser>({
+    auth0Id: '',
+    name: '',
+    nickname: '',
+    username: '',
+    user_id: '',
+    picture: '',
+    clientID: '',
+    sub: '',
+    created_at: '',
+    updated_at: '',
+    identities: [],
+  });
   const [protectedMessage, setProtectedMessage] = useState('');
 
+  console.log('user: ', user);
+  console.log('user_id: ', user.id);
+
+  useEffect(() => {
+    const setAxiosAuthHeader = async () => {
+      if (user) {
+        const auth0AccessToken = await getAccessTokenSilently({
+          audience: auth.audience,
+        });
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${auth0AccessToken}`;
+      }
+    };
+
+    const getUserFromDb = async () => {
+      try {
+        const userWithAuth0Id = { ...user, auth0Id: user.sub };
+        const appUser = await axios.post(
+          `${auth.walterApiUri}/login`,
+          userWithAuth0Id
+        );
+        setWalterUser({ ...appUser.data });
+        console.log('appUser: ', appUser);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    setAxiosAuthHeader();
+    getUserFromDb();
+  }, [getAccessTokenSilently, user]);
   const getMessage = async () => {
     try {
       const messageResponse = await fetch(auth.walterApiUri);
@@ -48,9 +99,9 @@ export function Profile() {
   return (
     <>
       <LogoutButton />
-      <img src={user.picture} alt={user.name} />
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
+      <img src={walterUser.picture} alt={walterUser.name} />
+      <h2>{walterUser.name}</h2>
+      <p>{walterUser.email}</p>
       <button onClick={() => getProtectedMessage()}>
         Get Protected Message
       </button>
