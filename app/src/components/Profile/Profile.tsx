@@ -25,6 +25,7 @@ export function Profile() {
     updated_at: '',
     identities: [],
   });
+  const [linkToken, setLinkToken] = useState('');
   const [protectedMessage, setProtectedMessage] = useState('');
 
   console.log('user: ', user);
@@ -59,6 +60,20 @@ export function Profile() {
     setAxiosAuthHeader();
     getUserFromDb();
   }, [getAccessTokenSilently, user]);
+
+  const getLinkToken = async () => {
+    try {
+      const linkToken = await axios.post(
+        `${auth.walterApiUri}/create-link-token`,
+        { auth0Id: walterUser.auth0Id }
+      );
+      setLinkToken(linkToken.data.linkToken);
+      console.log('linkToken: ', linkToken);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const getMessage = async () => {
     try {
       const messageResponse = await fetch(auth.walterApiUri);
@@ -107,6 +122,7 @@ export function Profile() {
       </button>
       <button onClick={() => getMessage()}>Get Message</button>
       {protectedMessage ? <p>{protectedMessage}</p> : null}
+      <button onClick={() => getLinkToken()}>GET LINK TOKEN</button>
     </>
   );
 }
