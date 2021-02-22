@@ -83,3 +83,28 @@ app.post('/create-link-token', async (req, res) => {
     return res.json({ error: err.message });
   }
 });
+
+// Plaid set access token
+app.post('/set-access-token', (req, res) => {
+  const { public_token, auth0Id } = req.body;
+
+  console.log('public_token: ', public_token);
+
+  plaidClient.exchangePublicToken(public_token, (err, tokenResponse) => {
+    if (err) {
+      res.json(err);
+    }
+
+    console.log('tokenResponse: ', tokenResponse);
+
+    users.addNewAccessToken(auth0Id, tokenResponse);
+
+    res
+      .status(200)
+      .json({
+        accessToken: tokenResponse.access_token,
+        itemId: tokenResponse.item_id,
+        error: null,
+      });
+  });
+});

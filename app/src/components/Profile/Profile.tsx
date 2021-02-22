@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Auth0UserProfile } from 'auth0-js';
 import { LogoutButton } from '../LogoutButton/LogoutButton';
 import auth from '../../config/auth.config';
+import { Link } from '../Link/Link';
 
 interface WalterUser extends Auth0UserProfile {
   auth0Id: string;
@@ -26,6 +27,7 @@ export function Profile() {
     identities: [],
   });
   const [linkToken, setLinkToken] = useState('');
+  const [accessToken, setAccessToken] = useState('');
   const [protectedMessage, setProtectedMessage] = useState('');
 
   console.log('user: ', user);
@@ -123,6 +125,11 @@ export function Profile() {
       <button onClick={() => getMessage()}>Get Message</button>
       {protectedMessage ? <p>{protectedMessage}</p> : null}
       <button onClick={() => getLinkToken()}>GET LINK TOKEN</button>
+      <Link
+        linkToken={linkToken}
+        setAccessToken={setAccessToken}
+        auth0Id={walterUser.auth0Id}
+      />
     </>
   );
 }
