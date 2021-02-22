@@ -78,13 +78,13 @@ export function Profile() {
 
   const getMessage = async () => {
     try {
-      const messageResponse = await fetch(auth.walterApiUri);
+      const messageResponse = await axios.get(auth.walterApiUri);
 
-      const { message } = await messageResponse.json();
+      const { message } = await messageResponse.data;
 
       setProtectedMessage(message);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -95,17 +95,13 @@ export function Profile() {
     });
 
     try {
-      const messageResponse = await fetch(`${auth.walterApiUri}/private`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const messageResponse = await axios.get(`${auth.walterApiUri}/private`);
 
-      const { message } = await messageResponse.json();
+      const { message } = await messageResponse.data;
 
       setProtectedMessage(message);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     }
   };
 
