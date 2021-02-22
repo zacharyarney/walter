@@ -89,11 +89,6 @@ export function Profile() {
   };
 
   const getProtectedMessage = async () => {
-    // this portion can probably be made into a hook.
-    const accessToken = await getAccessTokenSilently({
-      audience: auth.audience,
-    });
-
     try {
       const messageResponse = await axios.get(`${auth.walterApiUri}/private`);
 
