@@ -29,8 +29,12 @@ export function injectDb(connection: mongodb.MongoClient) {
   }
 }
 
-export async function getUserByAuth0Id(id: string) {
-  return await users.findOne({ auth0Id: id });
+export async function getUserByAuth0Id(auth0Id: string) {
+  return await users.findOne({ auth0Id }, { projection: { items: 0 } });
+}
+
+export async function getUserItems(auth0Id: string) {
+  return await users.findOne({ auth0Id }, { projection: { items: 1 } });
 }
 
 export async function createUser(user: Auth0UserSchema) {
