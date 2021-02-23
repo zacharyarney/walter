@@ -101,12 +101,24 @@ app.post('/set-access-token', (req, res) => {
 
     users.addNewAccessToken(auth0Id, tokenResponse);
 
-    res
-      .status(200)
-      .json({
-        accessToken: tokenResponse.access_token,
-        itemId: tokenResponse.item_id,
-        error: null,
-      });
+    res.status(200).json({
+      accessToken: tokenResponse.access_token,
+      itemId: tokenResponse.item_id,
+      error: null,
+    });
   });
+});
+
+// Plaid get accounts
+app.post('/accounts', async (req, res) => {
+  const user = await users.getUserItems(req.body.auth0Id);
+  plaidClient.getAccounts(
+    user.items[0].access_token,
+    (err: Error, accountsRes: plaid.AccountsResponse) => {
+      if (err) {
+        res.json(err);
+      }
+      res.status(200).json(accountsRes);
+    }
+  );
 });

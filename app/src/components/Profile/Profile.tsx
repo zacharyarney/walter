@@ -71,6 +71,17 @@ export function Profile() {
     }
   };
 
+  const getAccounts = async () => {
+    try {
+      const accounts = await axios.post(`${auth.walterApiUri}/accounts`, {
+        auth0Id: walterUser.auth0Id,
+      });
+      console.log('accounts: ', accounts);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const getMessage = async () => {
     try {
       const messageResponse = await axios.get(auth.walterApiUri);
@@ -116,6 +127,7 @@ export function Profile() {
         setAccessToken={setAccessToken}
         auth0Id={walterUser.auth0Id}
       />
+      <button onClick={() => getAccounts()}>Get Accounts</button>
     </>
   );
 }
