@@ -1,7 +1,14 @@
 import * as mongodb from 'mongodb';
 import database from '../../../config/db.config';
 
-interface UserSchema {
+interface Auth0UserSchema {
+  nickname: string;
+  name: string;
+  picture: string;
+  updated_at: string;
+  email: string;
+  email_verified: boolean;
+  sub: string;
   auth0Id: string;
 }
 
@@ -26,7 +33,7 @@ export async function getUserByAuth0Id(id: string) {
   return await users.findOne({ auth0Id: id });
 }
 
-export async function createUser(user: UserSchema) {
+export async function createUser(user: Auth0UserSchema) {
   console.log(user);
   try {
     const id = await users.insertOne(user);
