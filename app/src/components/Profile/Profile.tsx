@@ -30,9 +30,6 @@ export function Profile() {
   const [accessToken, setAccessToken] = useState('');
   const [protectedMessage, setProtectedMessage] = useState('');
 
-  console.log('user: ', user);
-  console.log('user_id: ', user.id);
-
   useEffect(() => {
     const setAxiosAuthHeader = async () => {
       if (user) {
@@ -53,7 +50,6 @@ export function Profile() {
           userWithAuth0Id
         );
         setWalterUser({ ...appUser.data });
-        console.log('appUser: ', appUser);
       } catch (err) {
         console.error(err);
       }
