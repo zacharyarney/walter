@@ -43,6 +43,6 @@ export async function addNewAccessToken(
   console.log('addNewAccessToken to DB');
   return await users.findOneAndUpdate(
     { auth0Id: auth0Id },
-    { $push: { items: accessTokenResponse } }
+    { $addToSet: { items: accessTokenResponse } }
   );
 }
