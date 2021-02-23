@@ -59,8 +59,7 @@ export function Profile() {
       }
     };
 
-    setAxiosAuthHeader();
-    getUserFromDb();
+    setAxiosAuthHeader().then(() => getUserFromDb());
   }, [getAccessTokenSilently, user]);
 
   const getLinkToken = async () => {
